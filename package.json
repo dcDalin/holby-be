@@ -1,0 +1,13 @@
+{
+  "name": "holby-be",
+  "version": "1.0.0",
+  "description": "Holby Training Solutions Backend",
+  "main": "index.js",
+  "repository": "https://github.com/dcDalin/holby-be.git",
+  "author": "<mcdalinoluoch@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
