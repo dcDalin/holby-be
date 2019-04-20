@@ -1,4 +1,5 @@
 import { ApolloServer } from 'apollo-server-express';
+import to from 'await-to-js';
 import express from 'express';
 import ENV from './config';
 import sequelize from './models';
@@ -11,25 +12,20 @@ app.disable('x-powered-by');
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
-const PORT = 4000;
 server.applyMiddleware({ app });
 
 app.get('/', (req, res) => res.send('Holby Training Solutions'));
 
-app.listen({ port: ENV.PORT }, () => {
+app.listen({ port: ENV.PORT }, async () => {
   /* eslint-disable no-console */
-  console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+  console.log(`🚀 Server ready at http://localhost:${ENV.PORT}${server.graphqlPath}`);
   /* eslint-disable no-console */
-  sequelize
-    .authenticate()
-    .then(() => {
-      /* eslint-disable no-console */
-      console.log('Connection has been established successfully.');
-      /* eslint-disable no-console */
-    })
-    .catch(err => {
-      /* eslint-disable no-console */
-      console.error('Unable to connect to the database:', err);
-      /* eslint-disable no-console */
-    });
+  let err = '';
+  [err] = await to(sequelize.sync({ force: true }));
+
+  if (err) {
+    console.error(`Error: Cannot connect to database, ${err}`);
+  } else {
+    console.log('Connected to database');
+  }
 });
