@@ -1,14 +1,3 @@
-const books = [
-  {
-    title: 'The Book',
-    author: 'Author',
-  },
-];
+import user from './user';
 
-const resolvers = {
-  Query: {
-    books: () => books,
-  },
-};
-
-export default resolvers;
+export default [user];
